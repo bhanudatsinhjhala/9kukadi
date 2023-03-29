@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>9 kukadi</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="board">
+        <h2 class="heading">Place your x</h2>
+        <div class="outer-rectangle">
+          <div class="cells-columns">
+            <div class="cell-flex cell-flex--left cell-flex--outer">
+              <input
+                type="button"
+                name="1"
+                class="cells"
+                id="cell-1"
+                value=""
+                onclick="handleCellClick(1, event)"
+              />
+              <input
+                type="button"
+                name="2"
+                class="cells"
+                id="cell-2"
+                value=""
+                onclick="handleCellClick(2, event)"
+              />
+              <input
+                type="button"
+                name="3"
+                class="cells"
+                id="cell-3"
+                value=""
+                onclick="handleCellClick(3, event)"
+              />
+            </div>
+            <div class="cell-flex cell-flex--middle cell-flex--outer">
+              <input
+                type="button"
+                name="1"
+                class="cells"
+                id="cell-1"
+                value=""
+                onclick="handleCellClick(10, event)"
+              />
+              <input
+                type="hidden"
+                name="2"
+                class="cells"
+                id="cell-2"
+                value=""
+              />
+              <input
+                type="button"
+                name="3"
+                class="cells"
+                id="cell-3"
+                value=""
+                onclick="handleCellClick(15, event)"
+              />
+            </div>
+            <div class="cell-flex cell-flex--right cell-flex--outer">
+              <input
+                type="button"
+                name="1"
+                class="cells"
+                id="cell-1"
+                value=""
+                onclick="handleCellClick(22, event)"
+              />
+              <input
+                type="button"
+                name="2"
+                class="cells"
+                id="cell-2"
+                value=""
+                onclick="handleCellClick(23, event)"
+              />
+              <input
+                type="button"
+                name="3"
+                class="cells"
+                id="cell-3"
+                value=""
+                onclick="handleCellClick(24, event)"
+              />
+            </div>
+          </div>
+          <div class="line-left"></div>
+          <div class="line-right"></div>
+          <div class="line-up"></div>
+          <div class="line-down"></div>
+          <div class="center-rectangle">
+            <div class="cells-columns cell-columns--center">
+              <div class="cell-flex cell-flex--left cell-flex--center">
+                <input
+                  type="button"
+                  name="1"
+                  class="cells"
+                  id="cell-1"
+                  value=""
+                  onclick="handleCellClick(4, event)"
+                />
+                <input
+                  type="button"
+                  name="2"
+                  class="cells"
+                  id="cell-2"
+                  value=""
+                  onclick="handleCellClick(5, event)"
+                />
+                <input
+                  type="button"
+                  name="3"
+                  class="cells"
+                  id="cell-3"
+                  value=""
+                  onclick="handleCellClick(6, event)"
+                />
+              </div>
+              <div class="cell-flex cell-flex--middle cell-flex--center">
+                <input
+                  type="button"
+                  name="1"
+                  class="cells"
+                  id="cell-1"
+                  value=""
+                  onclick="handleCellClick(11, event)"
+                />
+                <input
+                  type="hidden"
+                  name="2"
+                  class="cells"
+                  id="cell-2"
+                  value=""
+                />
+                <input
+                  type="button"
+                  name="3"
+                  class="cells"
+                  id="cell-3"
+                  value=""
+                  onclick="handleCellClick(14, event)"
+                />
+              </div>
+              <div class="cell-flex cell-flex--right cell-flex--center">
+                <input
+                  type="button"
+                  name="1"
+                  class="cells"
+                  id="cell-1"
+                  value=""
+                  onclick="handleCellClick(19, event)"
+                />
+                <input
+                  type="button"
+                  name="2"
+                  class="cells"
+                  id="cell-2"
+                  value=""
+                  onclick="handleCellClick(20, event)"
+                />
+                <input
+                  type="button"
+                  name="3"
+                  class="cells"
+                  id="cell-3"
+                  value=""
+                  onclick="handleCellClick(21, event)"
+                />
+              </div>
+            </div>
+            <div class="inner-rectangle">
+              <div class="cells-columns cell-columns--center">
+                <div class="cell-flex cell-flex--left cell-flex--center">
+                  <input
+                    type="button"
+                    name="1"
+                    class="cells"
+                    id="cell-1"
+                    value=""
+                    onclick="handleCellClick(7, event)"
+                  />
+                  <input
+                    type="button"
+                    name="2"
+                    class="cells"
+                    id="cell-2"
+                    value=""
+                    onclick="handleCellClick(8, event)"
+                  />
+                  <input
+                    type="button"
+                    name="3"
+                    class="cells"
+                    id="cell-3"
+                    value=""
+                    onclick="handleCellClick(9, event)"
+                  />
+                </div>
+                <div class="cell-flex cell-flex--middle cell-flex--center">
+                  <input
+                    type="button"
+                    name="1"
+                    class="cells"
+                    id="cell-1"
+                    value=""
+                    onclick="handleCellClick(12, event)"
+                  />
+                  <input
+                    type="hidden"
+                    name="2"
+                    class="cells"
+                    id="cell-2"
+                    value=""
+                  />
+                  <input
+                    type="button"
+                    name="3"
+                    class="cells"
+                    id="cell-3"
+                    value=""
+                    onclick="handleCellClick(13, event)"
+                  />
+                </div>
+                <div class="cell-flex cell-flex--right cell-flex--center">
+                  <input
+                    type="button"
+                    name="1"
+                    class="cells"
+                    id="cell-1"
+                    value=""
+                    onclick="handleCellClick(16, event)"
+                  />
+                  <input
+                    type="button"
+                    name="2"
+                    class="cells"
+                    id="cell-2"
+                    value=""
+                    onclick="handleCellClick(17, event)"
+                  />
+                  <input
+                    type="button"
+                    name="3"
+                    class="cells"
+                    id="cell-3"
+                    value=""
+                    onclick="handleCellClick(18, event)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="players-form">
+        <form onsubmit="handleSubmit(event)">
+          <label>Enter your Player 1 name</label>
+          <input type="text" name="player1" value="" class="player1" required />
+          <label>Enter your Player 2 name</label>
+          <input type="text" name="player2" value="" class="player2" required />
+          <input type="submit" name="submit" value="Start Game" />
+        </form>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
