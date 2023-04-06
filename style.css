@@ -1,15 +1,46 @@
 .players-form {
-  display: none;
   width: 180px;
+  margin: auto;
+  /* display: none; */
 }
+
 .players-form > input {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
-.board {
+.score-board {
+  width: 300px;
+  height: 150px;
   margin: auto;
 }
+
+.pawn-board {
+  /* background-color: #00629b; */
+  width: 70%;
+  height: 70%;
+  margin: auto;
+  /* color: #e0e0e0; */
+}
+
+.pawn-board > h4 {
+  text-align: center;
+}
+
+.player1,
+.player2 {
+  display: inline-block;
+  padding: 0 1rem;
+  border: 1px solid black;
+  width: 32%;
+}
+
+.board {
+  margin: auto;
+  margin-top: 2rem;
+  display: none;
+}
+
 .container {
   margin: auto;
   display: flex;
@@ -21,72 +52,88 @@
 
 input[type="text"] {
   margin: 1rem 0;
+  width: 80%;
+  padding: 0.25rem 1rem;
 }
 
 .outer-rectangle {
-  width: 700px;
-  height: 300px;
+  width: 500px;
+  height: 400px;
   border: 1px solid black;
 }
+
 .center-rectangle {
   height: 70%;
   width: 60%;
   position: relative;
-  top: 15%;
+  top: 14%;
   margin: auto;
   border: 1px solid black;
 }
+
 .inner-rectangle {
   position: relative;
-  top: 25%;
+  top: 23.5%;
   margin: auto;
   height: 50%;
   width: 50%;
+  background-color: #ffff;
   border: 1px solid black;
 }
 
 .line-left,
-.line-right,
-.line-up,
-.line-down {
-  width: 34.8%;
+.line-up {
   position: relative;
-  top: 50%;
+  top: 12.5rem;
   border: 1px solid black;
 }
 
 .line-up {
-  top: 16.5%;
-  width: 15%;
-  left: 42.25%;
+  top: 12.35rem;
+  width: 25rem;
+  left: 3rem;
   transform: rotate(90deg);
 }
+
 .line-down {
-  top: 84%;
-  bottom: 10%;
-  width: 15%;
-  left: 42.25%;
+  top: 82.8%;
+  left: 36.25%;
   transform: rotate(90deg);
 }
+
 .line-right {
   float: right;
 }
 
 .cells {
   position: relative;
-  left: -1rem;
+  left: -1.1rem;
   top: -0.7rem;
   width: 25px;
+  height: 25px;
+  background-color: #00629b;
+  color: #000000;
+  border: none;
   z-index: 1;
+}
+
+.cells:disabled {
+  background-color: #00629b7e;
 }
 
 .cells-columns {
   position: absolute;
   display: flex;
   justify-content: space-between;
-  width: 700px;
+  width: 500px;
   height: 310px;
 }
+
+.cell-columns--center {
+  height: 302px;
+  width: 300px;
+}
+
 #cell-2,
 #cell-3 {
   top: -0.25rem;
@@ -97,6 +144,7 @@ input[type="text"] {
   top: 0;
   bottom: 3.5rem;
 }
+
 .cell-flex {
   display: flex;
   flex-direction: column;
@@ -106,26 +154,33 @@ input[type="text"] {
 .cell-flex--middle {
   margin-left: 2rem;
 }
+
 .cell-flex--left {
   float: left;
 }
+
 .cell-flex--right {
   position: relative;
   right: -2rem;
 }
+
 .cell-flex--outer {
-  height: 310px;
+  height: 420px;
 }
+
 .cell-flex--center {
   height: 100%;
 }
+
 .cell-flex--center > #cell-3 {
   margin-bottom: -0.8rem;
 }
+
 .cell-flex--center > #cell-2 {
   margin-bottom: 0.5rem;
 }
-.cell-columns--center {
-  width: 100%;
-  height: 100%;
+
+.cell-columns--inner {
+  height: 166px;
+  width: 143px;
 }
