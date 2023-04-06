@@ -2,12 +2,12 @@ const playersObj = [
   {
     name: "player1",
     value: "X",
-    pawn: 4,
+    pawn: 9,
   },
   {
     name: "player2",
     value: "O",
-    pawn: 4,
+    pawn: 9,
   },
 ];
 

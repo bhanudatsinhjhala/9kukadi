@@ -114,10 +114,12 @@ function toggleMillis(value) {
 }
 
 function deleteOpponentOfJumpPosition(oldPosition, newPosition) {
+  console.log("deleteOpponentOfJumpPosition called", oldPosition, newPosition);
   const index = newPosition[0];
   const position = newPosition[1];
   const isOddPosition = position % 2 === 0 ? false : true;
   if (isOddPosition) {
+    console.log("odd position");
     const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
     newGameBoard.deleteOpponentsPawn(1, position, opponentsValue);
     const cellEl = document.querySelector(
@@ -146,7 +148,9 @@ function deleteOpponentOfJumpPosition(oldPosition, newPosition) {
     );
     return (cellEl.value = "");
   }
-  const index2 = +position2 > +position ? +position - 1 : +position + 1;
+  console.log("position2", position2, "position", position);
+  const index2 = +position2 > +position ? +position + 1 : +position - 1;
+  console.log("delete move", index, index2);
   newGameBoard.board[index][index2] = "-";
   const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
   newGameBoard.deleteOpponentsPawn(index, index2, opponentsValue);

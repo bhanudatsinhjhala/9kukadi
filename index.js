@@ -75,7 +75,9 @@ function movePlayersPawn(index, position, e) {
     [index, position],
     currentPlayerValue
   );
-  if (newGameBoard.checkJumpPositions(index, position))
+  const isInJumpPositions = newGameBoard.checkJumpPositions(index, position);
+  console.log("isInJumpPositions", isInJumpPositions);
+  if (isInJumpPositions)
     deleteOpponentOfJumpPosition(movePosition, [index, position]);
   const isPlayerWin = newGameBoard.isPlayerWin();
   console.log("isPlayerWin", isPlayerWin);
@@ -105,6 +107,7 @@ function showPossibleMoves(index, position, e) {
       "There are no vacant positions. please select other position");
   console.log("board :>> ", newGameBoard.board);
   movePosition = [index, position];
+  console.log("movePosition", movePosition);
   console.log("getEmptyPositions :>> ", getEmptyPositions);
   const color = currentPlayerValue === "X" ? "green" : "blue";
   getEmptyPositions.forEach((indexPos) => {
