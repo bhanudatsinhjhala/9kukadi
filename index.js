@@ -1,10 +1,11 @@
 const headingEl = document.querySelector(".heading");
-const cellsEl = document.querySelectorAll(".cells");
+let cellsEl = document.querySelectorAll(".cells");
 const playerFormEl = document.querySelector(".players-form");
 const boardEl = document.querySelector(".board");
 const player1El = document.querySelector(".player1-para");
 const player2El = document.querySelector(".player2-para");
 
+cellsEl = [...cellsEl];
 const newGameBoard = new GameBoard();
 const newPlayers = new Players();
 
@@ -17,14 +18,9 @@ function handleSubmit(e) {
   const players = getFormData(e.target);
   const player1 = players[0].toLowerCase().trim();
   const player2 = players[1].toLowerCase().trim();
-  if (!player1 || !player2) {
-    alert("Please do not leave fields empty");
-    return;
-  }
-  if (player1 === player2) {
-    alert("Please do not enter duplicate player names");
-    return;
-  }
+  if (!player1 || !player2) return alert("Please do not leave fields empty");
+  if (player1 === player2)
+    return alert("Please do not enter duplicate player names");
   newPlayers.setPlayerName(0, player1);
   newPlayers.setPlayerName(1, player2);
   boardEl.style.display = "block";
@@ -38,24 +34,31 @@ function handleCellClick(index, position, e) {
   const inputVal = e.target.value;
   console.log("inputVal :>> ", inputVal);
   console.log("pawnStatus :>> ", pawnStatus);
-  if (inputVal === "" && pawnStatus === "add")
-    return addPawns(index, position, e);
-  else if (inputVal === "" && pawnStatus === "move")
-    return movePlayersPawn(index, position, e);
-  else if (inputVal !== currentPlayerValue && pawnStatus === "delete")
-    return removeOpponentsPawn(index, position, e);
-  else if (inputVal === currentPlayerValue && pawnStatus === "move")
-    return showPossibleMoves(index, position, e);
+  switch (true) {
+    case inputVal === "" && pawnStatus === "add":
+      addPawns(index, position, e);
+      break;
+    case inputVal === "" && pawnStatus === "move":
+      movePlayersPawn(index, position, e);
+      break;
+    case inputVal !== currentPlayerValue && pawnStatus === "delete":
+      removeOpponentsPawn(index, position, e);
+      break;
+    case inputVal === currentPlayerValue && pawnStatus === "move":
+      showPossibleMoves(index, position);
+      break;
+    default:
+      console.error("Switch case reached to default");
+  }
 }
 
 function removeOpponentsPawn(index, position, e) {
-  newGameBoard.deleteOpponentsPawn(index, position, e.target.value);
+  newGameBoard.removeOpponentsPawn(index, position, e.target.value);
   e.target.value = "";
-  const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
-  toggleCellGroupBtns([...cellsEl], true, currentPlayerValue, opponentsValue);
-  toggleCellGroupBtns([...cellsEl], false, "");
+  const opponentsValue = getOpponetsValue();
+  toggleCellGroupBtns(cellsEl, true, currentPlayerValue, opponentsValue);
+  toggleCellGroupBtns(cellsEl, false, "");
   changePawnStatus(pawnStatus);
-  console.log("remove pawn changed pawnStatus :>> ", pawnStatus);
   const isPlayerWin = newGameBoard.isPlayerWin();
   console.log("isPlayerWin", isPlayerWin);
   if (isPlayerWin) return declareWinner("won", currentPlayerValue);
@@ -63,118 +66,106 @@ function removeOpponentsPawn(index, position, e) {
 }
 
 function movePlayersPawn(index, position, e) {
-  console.log("movePLayersPawn function called");
-  const cellEl = document.querySelector(
-    `input[data-id=\"${movePosition[0]}${movePosition[1]}\"`
-  );
+  // empty last move position
+  const cellEl = getCellBtnEl(movePosition[0], movePosition[1]);
   cellEl.value = "";
+
+  // diable the btn and assign the current player's value
   e.target.value = currentPlayerValue;
   toggleCellButton(e.target, true);
+
+  // move the position
   newGameBoard.movePosition(
     movePosition,
     [index, position],
     currentPlayerValue
   );
+
+  // check if it's jump move and delete the opponent if it is.
   const isInJumpPositions = newGameBoard.checkJumpPositions(index, position);
-  console.log("isInJumpPositions", isInJumpPositions);
   if (isInJumpPositions)
-    deleteOpponentOfJumpPosition(movePosition, [index, position]);
+    deleteOpponentJumpPosition(movePosition, [index, position]);
+
+  // check if the player won
   const isPlayerWin = newGameBoard.isPlayerWin();
-  console.log("isPlayerWin", isPlayerWin);
   if (isPlayerWin) return declareWinner("won", currentPlayerValue);
-  toggleCellGroupBtns([...cellsEl], true, currentPlayerValue);
-  const isWinner = newGameBoard.checkWinner(index, position);
-  console.log("isWinner", isWinner);
-  if (isWinner == true) return declareWinner("millis", currentPlayerValue);
+
+  toggleCellGroupBtns(cellsEl, true, currentPlayerValue);
+
+  // check if there is milli after moving
+  const isWinner = newGameBoard.checkMilli(index, position);
+  if (isWinner) return declareWinner("millis", currentPlayerValue);
   nextPlayersTurn(currentPlayerValue);
   console.log("board :>> ", newGameBoard.board);
-  toggleCellGroupBtns([...cellsEl], true, "");
-  toggleCellGroupBtns([...cellsEl], false, currentPlayerValue);
+  toggleCellGroupBtns(cellsEl, true, "");
+  toggleCellGroupBtns(cellsEl, false, currentPlayerValue);
 }
 
-function showPossibleMoves(index, position, e) {
-  console.log("showPossibleMoves function called");
-  const playerName = getPlayersName(currentPlayerValue);
-  headingEl.innerText = `${playerName} place your ${currentPlayerValue}`;
-  toggleCellGroupBtns([...cellsEl], true, "");
+function showPossibleMoves(index, position) {
+  const playerName = getCurrentPlayerName(currentPlayerValue);
+  setHeading(`${playerName} move your ${currentPlayerValue}`);
+  toggleCellGroupBtns(cellsEl, true, "");
   const getEmptyPositions = newGameBoard.getAdjacentEmptyPositions(
     index,
     position,
     currentPlayerValue
   );
   if (getEmptyPositions.length === 0)
-    return (headingEl.innerText =
-      "There are no vacant positions. please select other position");
-  console.log("board :>> ", newGameBoard.board);
+    return setHeading(
+      "There are no vacant positions. please select other position"
+    );
   movePosition = [index, position];
   console.log("movePosition", movePosition);
   console.log("getEmptyPositions :>> ", getEmptyPositions);
-  const color = currentPlayerValue === "X" ? "green" : "blue";
-  getEmptyPositions.forEach((indexPos) => {
-    const cell = document.querySelector(
-      `input[data-id=\"${indexPos[0]}${indexPos[1]}\"`
-    );
+  getEmptyPositions.forEach((indexPosistions) => {
+    const cell = getCellBtnEl(indexPosistions[0], indexPosistions[1]);
     toggleCellButton(cell, false);
   });
 }
 
 function addPawns(index, position, e) {
-  console.log("add position called");
   const pawnDecrementResult =
     newPlayers.decrementPlayersPawn(currentPlayerValue);
   const isPawnDecremented = pawnDecrementResult[0];
-  const playerName = getPlayersName(currentPlayerValue);
+  const playerName = getCurrentPlayerName(currentPlayerValue);
   const playerEl = currentPlayerValue === "X" ? player1El : player2El;
-  if (typeof isPawnDecremented === "string") {
-    changePawnStatus(pawnStatus);
-    console.log("add pawn changed pawnStatus :>> ", pawnStatus);
-    updatePawnBoard(playerEl, playerName, pawnDecrementResult[1]);
-    headingEl.innerText = isPawnDecremented;
-  }
-  if (isPawnDecremented === true) {
+  if (isPawnDecremented) {
     updatePawnBoard(playerEl, playerName, pawnDecrementResult[1]);
     e.target.value = currentPlayerValue;
     toggleCellButton(e.target, true);
     newGameBoard.addPosition(index, position, currentPlayerValue);
-    const isWinner = newGameBoard.checkWinner(index, position);
+    const isWinner = newGameBoard.checkMilli(index, position);
     console.log("isWinner", isWinner);
-    if (isWinner == true) return declareWinner("millis", currentPlayerValue);
+    if (isWinner) return declareWinner("millis", currentPlayerValue);
     if (pawnDecrementResult[2] === 0 && pawnDecrementResult[1] === 0) {
-      console.error(
-        "create move Board callled",
-        pawnDecrementResult[2],
-        pawnDecrementResult[2]
-      );
-      createMoveBoard(currentPlayerValue);
+      createMoveBoard();
       changePawnStatus(pawnStatus, false);
-      console.log("create move board changed pawnStatus :>> ", pawnStatus);
     }
     return nextPlayersTurn(currentPlayerValue);
   }
 }
 
 function declareWinner(messageCategory, currentPlayerValue) {
-  const playerName = getPlayersName(currentPlayerValue);
+  const playerName = getCurrentPlayerName(currentPlayerValue);
   const messageCategories = ["millis", "won"];
   const messages = [
     `${playerName} has three on lines. Now please Pick Opponents Pawn`,
     `${playerName} has won the game. Congratulations!!!!`,
   ];
   const index = messageCategories.indexOf(messageCategory);
-  const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
+  const opponentsValue = getOpponetsValue();
   if (messageCategory === "won") {
-    headingEl.innerText = messages[index];
+    setHeading(messages[index]);
     return toggleCellGroupBtns(
-      [...cellsEl],
+      cellsEl,
       true,
       "",
       opponentsValue,
       currentPlayerValue
     );
   }
-  toggleCellGroupBtns([...cellsEl], false, opponentsValue);
-  toggleCellGroupBtns([...cellsEl], true, "", currentPlayerValue);
-  headingEl.innerText = messages[index];
+  toggleCellGroupBtns(cellsEl, false, opponentsValue);
+  toggleCellGroupBtns(cellsEl, true, "", currentPlayerValue);
   toggleMillis(opponentsValue);
   changePawnStatus(pawnStatus);
   console.log("declare win changed pawnStatus :>> ", pawnStatus);
