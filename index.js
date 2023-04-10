@@ -162,6 +162,16 @@ function declareWinner(messageCategory, currentPlayerValue) {
   ];
   const index = messageCategories.indexOf(messageCategory);
   const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
+  if (messageCategory === "won") {
+    headingEl.innerText = messages[index];
+    return toggleCellGroupBtns(
+      [...cellsEl],
+      true,
+      "",
+      opponentsValue,
+      currentPlayerValue
+    );
+  }
   toggleCellGroupBtns([...cellsEl], false, opponentsValue);
   toggleCellGroupBtns([...cellsEl], true, "", currentPlayerValue);
   headingEl.innerText = messages[index];
