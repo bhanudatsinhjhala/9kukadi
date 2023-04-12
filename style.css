@@ -56,6 +56,24 @@ input[type="text"] {
   padding: 0.25rem 1rem;
 }
 
+input[data-value="X"] {
+  color: #ffff;
+  background-color: #9b0000;
+}
+
+input[data-value="X"]:disabled {
+  background-color: #9b000081;
+}
+
+input[data-value="O"] {
+  color: #000000;
+  background-color: #009b0d;
+}
+
+input[data-value="O"]:disabled {
+  background-color: #009b0d85;
+}
+
 .outer-rectangle {
   width: 500px;
   height: 400px;

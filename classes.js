@@ -60,6 +60,7 @@ class GameBoard {
     this.movePosition = this.movePosition.bind(this);
     this.getMillis = this.getMillis.bind(this);
     this.getBoxMillis = this.getBoxMillis.bind(this);
+    this.getPlayersPawnCount = this.getPlayersPawnCount.bind(this);
     this.getLineMillis = this.getLineMillis.bind(this);
     this.checkJumpPositions = this.checkJumpPositions.bind(this);
     this.getJumpPawnPossibilites = this.getJumpPawnPossibilites.bind(this);
@@ -153,6 +154,9 @@ class GameBoard {
     return (this.board[index][position] = "-");
   }
 
+  getPlayersPawnCount(value) {
+    return value === "X" ? this.#playerFirstPawns : this.#playerSecondPawns;
+  }
   isPlayerWin() {
     if (this.#playerFirstPawns === 2 || this.#playerSecondPawns === 2)
       return true;

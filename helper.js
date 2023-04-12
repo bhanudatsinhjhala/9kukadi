@@ -24,10 +24,11 @@ function resetPlayersName() {
 
 function nextPlayersTurn(value) {
   currentPlayerValue = value === "X" ? "O" : "X";
+  const color = currentPlayerValue === "X" ? "red" : "green";
   const playerName = getCurrentPlayerName(currentPlayerValue);
   const messages = [
-    `${playerName} place your ${currentPlayerValue}`,
-    `${playerName} move your ${currentPlayerValue}`,
+    `${playerName} place your ${color}`,
+    `${playerName} move your ${color}`,
   ];
   return (headingEl.innerText =
     pawnStatus === "move" ? messages[1] : messages[0]);
@@ -45,12 +46,26 @@ function getCurrentPlayerName(currentPlayerValue) {
 }
 
 function updatePawnBoard(playerEl, playerName, pawnCount) {
+  console.error("playerEl", playerEl);
+  console.error("playerName", playerName);
+  console.error("pawnCount", pawnCount);
   return (playerEl.innerText = `${playerName}: ${pawnCount}`);
 }
 
 function createMoveBoard() {
   toggleCellGroupBtns(cellsEl, true, "");
   toggleCellGroupBtns(cellsEl, false, getOpponetsValue());
+  [...boardHeadingEl][0].innerText = "Pawns Left on Board";
+  updatePawnBoard(
+    player1El,
+    getCurrentPlayerName("X"),
+    newGameBoard.getPlayersPawnCount("X")
+  );
+  updatePawnBoard(
+    player2El,
+    getCurrentPlayerName("O"),
+    newGameBoard.getPlayersPawnCount("O")
+  );
 }
 
 function changePawnStatus(value, isWinner = null) {
@@ -80,7 +95,7 @@ function changePawnStatus(value, isWinner = null) {
 function toggleCellGroupBtns(elements, disabled, ...args) {
   elements.forEach((element) => {
     for (let i = 0; i < args.length; i++) {
-      if (args[i] === element.value) {
+      if (args[i] === element.dataset.value) {
         toggleCellButton(element, disabled);
         break;
       }
@@ -133,8 +148,15 @@ function deleteOpponentJumpPosition(oldMovePosition, newMovePosition) {
   function deletePosition(index, position, value) {
     newGameBoard.removeOpponentsPawn(index, position, value);
     const cellEl = getCellBtnEl(index, position);
+    const opponentsValue = currentPlayerValue === "X" ? "O" : "X";
+    const playerEl = opponentsValue === "X" ? player1El : player2El;
+    updatePawnBoard(
+      playerEl,
+      getCurrentPlayerName(opponentsValue),
+      newGameBoard.getPlayersPawnCount(opponentsValue)
+    );
     console.log("cellEl", cellEl);
-    return (cellEl.value = "");
+    return setElementTargetDataValue(cellEl, "");
   }
 }
 
@@ -148,4 +170,8 @@ function getCellBtnEl(index, position) {
 
 function setHeading(message) {
   return (headingEl.innerText = message);
+}
+
+function setElementTargetDataValue(element, value) {
+  element.dataset.value = value;
 }

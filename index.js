@@ -4,6 +4,7 @@ const playerFormEl = document.querySelector(".players-form");
 const boardEl = document.querySelector(".board");
 const player1El = document.querySelector(".player1-para");
 const player2El = document.querySelector(".player2-para");
+const boardHeadingEl = document.getElementsByTagName("h4");
 
 cellsEl = [...cellsEl];
 const newGameBoard = new GameBoard();
@@ -31,7 +32,8 @@ function handleSubmit(e) {
 }
 
 function handleCellClick(index, position, e) {
-  const inputVal = e.target.value;
+  console.log("e.target", e.target.dataset.value);
+  const inputVal = e.target.dataset.value;
   console.log("inputVal :>> ", inputVal);
   console.log("pawnStatus :>> ", pawnStatus);
   switch (true) {
@@ -53,11 +55,17 @@ function handleCellClick(index, position, e) {
 }
 
 function removeOpponentsPawn(index, position, e) {
-  newGameBoard.removeOpponentsPawn(index, position, e.target.value);
-  e.target.value = "";
+  newGameBoard.removeOpponentsPawn(index, position, e.target.dataset.value);
+  setElementTargetDataValue(e.target, "");
   const opponentsValue = getOpponetsValue();
   toggleCellGroupBtns(cellsEl, true, currentPlayerValue, opponentsValue);
   toggleCellGroupBtns(cellsEl, false, "");
+  const playerEl = currentPlayerValue === "X" ? player1El : player2El;
+  updatePawnBoard(
+    playerEl,
+    getCurrentPlayerName(currentPlayerValue),
+    newGameBoard.getPlayersPawnCount(currentPlayerValue)
+  );
   changePawnStatus(pawnStatus);
   const isPlayerWin = newGameBoard.isPlayerWin();
   console.log("isPlayerWin", isPlayerWin);
@@ -68,10 +76,10 @@ function removeOpponentsPawn(index, position, e) {
 function movePlayersPawn(index, position, e) {
   // empty last move position
   const cellEl = getCellBtnEl(movePosition[0], movePosition[1]);
-  cellEl.value = "";
+  setElementTargetDataValue(cellEl, "");
 
-  // diable the btn and assign the current player's value
-  e.target.value = currentPlayerValue;
+  // disable the btn and assign the current player's value
+  setElementTargetDataValue(e.target, currentPlayerValue);
   toggleCellButton(e.target, true);
 
   // move the position
@@ -131,7 +139,7 @@ function addPawns(index, position, e) {
   const playerEl = currentPlayerValue === "X" ? player1El : player2El;
   if (isPawnDecremented) {
     updatePawnBoard(playerEl, playerName, pawnDecrementResult[1]);
-    e.target.value = currentPlayerValue;
+    setElementTargetDataValue(e.target, currentPlayerValue);
     toggleCellButton(e.target, true);
     newGameBoard.addPosition(index, position, currentPlayerValue);
     const isWinner = newGameBoard.checkMilli(index, position);
