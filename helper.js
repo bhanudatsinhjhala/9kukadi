@@ -46,9 +46,6 @@ function getCurrentPlayerName(currentPlayerValue) {
 }
 
 function updatePawnBoard(playerEl, playerName, pawnCount) {
-  console.error("playerEl", playerEl);
-  console.error("playerName", playerName);
-  console.error("pawnCount", pawnCount);
   return (playerEl.innerText = `${playerName}: ${pawnCount}`);
 }
 
@@ -105,7 +102,6 @@ function toggleCellGroupBtns(elements, disabled, ...args) {
 
 // diable opponents milli position so to prevent deletion
 function toggleMillis(value) {
-  console.error("called toggle Milli function called");
   const millisCellPosition = newGameBoard.getMillis(value);
   millisCellPosition.forEach((positions) => {
     if (Array.isArray(positions[0])) {
@@ -126,7 +122,6 @@ function toggleMillis(value) {
 }
 
 function deleteOpponentJumpPosition(oldMovePosition, newMovePosition) {
-  console.log("oldPosition", oldMovePosition, "newPosition", newMovePosition);
   const newIndex = newMovePosition[0];
   const newPosition = newMovePosition[1];
   const isOddPosition = newPosition % 2 === 0 ? false : true;
@@ -155,7 +150,6 @@ function deleteOpponentJumpPosition(oldMovePosition, newMovePosition) {
       getCurrentPlayerName(opponentsValue),
       newGameBoard.getPlayersPawnCount(opponentsValue)
     );
-    console.log("cellEl", cellEl);
     return setElementTargetDataValue(cellEl, "");
   }
 }

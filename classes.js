@@ -29,7 +29,6 @@ class Players {
       player.pawn--;
       return [true, player.pawn, opponentPlayer.pawn];
     }
-    console.log(this.players[0], this.players[1]);
     return [false, player.pawn, opponentPlayer.pawn];
   }
 }
@@ -110,7 +109,6 @@ class GameBoard {
       position,
       value
     );
-    console.log("#jumpPositions :>> ", this.#jumpPositions);
     const isOddPosition = position % 2 !== 0 ? true : false;
     if (isOddPosition) {
       if (index === 0 || index === 2) {
@@ -138,7 +136,6 @@ class GameBoard {
       if (this.board[index][movePosition] === "-")
         adjacentPositions.push([index, movePosition]);
     }
-    console.log("finall adjacentPositions", adjacentPositions);
     return adjacentPositions;
   }
 
@@ -149,8 +146,6 @@ class GameBoard {
 
   removeOpponentsPawn(index, position, value) {
     value === "X" ? this.#playerFirstPawns-- : this.#playerSecondPawns--;
-    console.log("this.#playerFirstPawns", this.#playerFirstPawns);
-    console.log("this.#playerSecondPawns", this.#playerSecondPawns);
     return (this.board[index][position] = "-");
   }
 
@@ -221,7 +216,6 @@ class GameBoard {
       );
       if (resultPosition) result.push(resultPosition);
     }
-    console.log("result", result);
     return result;
   }
 
@@ -231,7 +225,6 @@ class GameBoard {
       this.board[index][newPositionPlayer] === "-" &&
       !this.checkMilli(index, jumpPosition)
     ) {
-      console.log("newPositionPlayer", newPositionPlayer);
       return [index, newPositionPlayer];
     }
     return;
@@ -256,7 +249,6 @@ class GameBoard {
     );
     if (jumpPositionLowerValue) result.push(jumpPositionLowerValue);
     if (jumpPositionIsSeven) result.push(jumpPositionIsSeven);
-    console.log("result", result);
     return result;
   }
 
@@ -273,7 +265,6 @@ class GameBoard {
   }
   checkJumpPositions(index, position) {
     let jumpPositions = this.#jumpPositions;
-    console.info("jumpPositions", jumpPositions);
     for (let i = 0; i < jumpPositions.length; i++) {
       const boxIndex = jumpPositions[i][0];
       const positionIndex = jumpPositions[i][1];

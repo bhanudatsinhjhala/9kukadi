@@ -32,10 +32,7 @@ function handleSubmit(e) {
 }
 
 function handleCellClick(index, position, e) {
-  console.log("e.target", e.target.dataset.value);
   const inputVal = e.target.dataset.value;
-  console.log("inputVal :>> ", inputVal);
-  console.log("pawnStatus :>> ", pawnStatus);
   switch (true) {
     case inputVal === "" && pawnStatus === "add":
       addPawns(index, position, e);
@@ -68,7 +65,6 @@ function removeOpponentsPawn(index, position, e) {
   );
   changePawnStatus(pawnStatus);
   const isPlayerWin = newGameBoard.isPlayerWin();
-  console.log("isPlayerWin", isPlayerWin);
   if (isPlayerWin) return declareWinner("won", currentPlayerValue);
   return nextPlayersTurn(currentPlayerValue);
 }
@@ -104,7 +100,6 @@ function movePlayersPawn(index, position, e) {
   const isWinner = newGameBoard.checkMilli(index, position);
   if (isWinner) return declareWinner("millis", currentPlayerValue);
   nextPlayersTurn(currentPlayerValue);
-  console.log("board :>> ", newGameBoard.board);
   toggleCellGroupBtns(cellsEl, true, "");
   toggleCellGroupBtns(cellsEl, false, currentPlayerValue);
 }
@@ -123,8 +118,6 @@ function showPossibleMoves(index, position) {
       "There are no vacant positions. please select other position"
     );
   movePosition = [index, position];
-  console.log("movePosition", movePosition);
-  console.log("getEmptyPositions :>> ", getEmptyPositions);
   getEmptyPositions.forEach((indexPosistions) => {
     const cell = getCellBtnEl(indexPosistions[0], indexPosistions[1]);
     toggleCellButton(cell, false);
@@ -143,7 +136,6 @@ function addPawns(index, position, e) {
     toggleCellButton(e.target, true);
     newGameBoard.addPosition(index, position, currentPlayerValue);
     const isWinner = newGameBoard.checkMilli(index, position);
-    console.log("isWinner", isWinner);
     if (isWinner) return declareWinner("millis", currentPlayerValue);
     if (pawnDecrementResult[2] === 0 && pawnDecrementResult[1] === 0) {
       createMoveBoard();
@@ -176,6 +168,5 @@ function declareWinner(messageCategory, currentPlayerValue) {
   toggleCellGroupBtns(cellsEl, true, "", currentPlayerValue);
   toggleMillis(opponentsValue);
   changePawnStatus(pawnStatus);
-  console.log("declare win changed pawnStatus :>> ", pawnStatus);
   return;
 }
